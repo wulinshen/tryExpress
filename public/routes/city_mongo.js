@@ -29,6 +29,7 @@ router.route('/')
          }
        });
        })
+       
      .post(parsedUrlencoded, function(req, res){
       var city_Model= new City_Model();
       city_Model.name=req.body.name;
@@ -38,7 +39,7 @@ router.route('/')
         console.log("Error: ", error);
 
       });
-       res.status(201).json(req.body.name+" Inserted!");})
+       res.status(201).json(req.body);})
       ;
 
 
@@ -66,7 +67,7 @@ else {
         if (err){
           res.send(err);
           }
-        res.json({ message: 'City updated!' });
+        res.json(req.body);
       })};
 
     });
@@ -79,8 +80,7 @@ else {
     }, function(err, city) {
       if (err)
         res.send(err);
-
-      res.json({ message: 'Successfully deleted' });
+      res.json(city);
     });
     });
   ;
