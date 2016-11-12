@@ -18,7 +18,7 @@ var MarkerSchema = new Schema({
   msg : msgSchema,
   type : String,
   code : String
-});
+}, { collection: 'MarkerMapDb' });
 
 module.exports = mongoose.model('Marker_Model', MarkerSchema)
 

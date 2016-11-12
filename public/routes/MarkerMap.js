@@ -7,7 +7,7 @@ var mongoose =require('mongoose');
 var Marker_Model = require('../.././models/Marker_Model');
 
 
-mongoose.connect('mongodb://vwu:2231207@ds017736.mlab.com:17736/vicnetfirstmongodb');
+mongoose.createConnection('mongodb://vwu:2231207@ds017736.mlab.com:17736/vicnetfirstmongodb');
 
 var parsedUrlencoded = bodyParser.urlencoded({extended:false});
 
