@@ -22,12 +22,28 @@ router.route('/')
          }
        });
        })
+
+                //"loc" : {
+                //     "type" : "Point",
+                //     "coordinates" : [
+                //       39.419675,
+                //       -77.447801
+                //     ]
+                //   },
+                //   "name" : "Giant Eagle",
+                //   "msg"  : {"title":"Wow!", "body":"Check this out! A homeless people here, so sad! Come and help him plz!"},
+                //   "type" : "",
+                //   "code" : "PSC"
        
      .post(parsedUrlencoded, function(req, res){
-      var Marker_Model= new Marker_Model();
-      Marker_Model.name=req.body.name;
-      Marker_Model.code=req.body.code;
-      Marker_Model.save(function (error) {
+      var marker_Model = new Marker_Model();
+      var rb= req.body;
+      marker_Model.loc = {"type": rb.geoType, "coordinates":[rb.lat, rb.lng]};
+      marker_Model.name = rb.name;
+      marker_Model.msg = {"title":rb.title, "body":rb.body};
+      marker_Model.type = rb.type;
+      marker_Model.code = rb.code;
+      marker_Model.save(function (error) {
         if (error)
         console.log("Error: ", error);
 

@@ -12,13 +12,22 @@ var msgSchema = new Schema({
 });
 
 
+// var MarkerSchema = new Schema({
+//   loc : locSchema,
+//   name : String,
+//   msg : msgSchema,
+//   type : String,
+//   code : String
+// }, { collection: 'MarkerMapDb' });
+
 var MarkerSchema = new Schema({
   loc : locSchema,
   name : String,
-  msg : msgSchema,
+  //msg : msgSchema,
   type : String,
   code : String
 }, { collection: 'MarkerMapDb' });
+
 
 module.exports = mongoose.model('Marker_Model', MarkerSchema)
 
