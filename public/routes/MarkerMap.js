@@ -70,8 +70,12 @@ router.route('/:markerid')
         res.send(err);
 }
 else {
-      marker.name = req.body.name;
-      marker.code = req.body.code;
+     var rb= req.body;
+      marker_Model.loc = {"type": rb.geoType, "coordinates":[parseFloat(rb.lat), parseFloat(rb.lng)]};
+      marker_Model.name = rb.name;
+      marker_Model.msg = {"title": rb.msgTitle, "body": rb.msgBody};
+      marker_Model.type = rb.type;
+      marker_Model.code = rb.code;
       marker.save(function(err) {
         if (err){
           res.send(err);
