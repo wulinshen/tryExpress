@@ -23,7 +23,7 @@ var msgSchema = new Schema({
 var MarkerSchema = new Schema({
   loc : locSchema,
   name : String,
-  //msg : msgSchema,
+  msg : msgSchema,
   type : String,
   code : String
 }, { collection: 'MarkerMapDb' });

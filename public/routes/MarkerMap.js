@@ -38,9 +38,9 @@ router.route('/')
      .post(parsedUrlencoded, function(req, res){
       var marker_Model = new Marker_Model();
       var rb= req.body;
-      marker_Model.loc = {"type": rb.geoType, "coordinates":[rb.lat, rb.lng]};
+      marker_Model.loc = {"type": rb.geoType, "coordinates":[parseFloat(rb.lat), parseFloat(rb.lng)]};
       marker_Model.name = rb.name;
-      marker_Model.msg = {"title":rb.title, "body":rb.body};
+      marker_Model.msg = {"title": rb.msgTitle, "body": rb.msgBody};
       marker_Model.type = rb.type;
       marker_Model.code = rb.code;
       marker_Model.save(function (error) {
