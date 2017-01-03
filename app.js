@@ -23,5 +23,5 @@ app.use('/users', userRouter);
 
 
 app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+  console.log('Hi,Vince, Node app is running on port', app.get('port'));
 });

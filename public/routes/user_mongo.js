@@ -27,19 +27,30 @@ router.route('/')
        });
     })
 
-
      .post(parsedUrlencoded, function(req, res){
-      var User_Model= new User_Model();
-      User_Model.userName=req.body.userName;
-      User_Model.profileUrl=req.body.profileUrl;
-      User_Model.stars=req.body.stars;
+      var newUser_Model= new User_Model();
+      newUser_Model.userName=req.body.userName;
+      newUser_Model.profileUrl=req.body.profileUrl;
+      newUser_Model.stars=req.body.stars;
+      newUser_Model.items=[];
+      newUser_Model.myOrders=[];
+      newUser_Model.friends_Orders=[];
 
-      User_Model.save(function (error) {
-        if (error)
-        console.log("Error: ", error);
-
+      newUser_Model.save(function (err) {
+        if (err)
+        console.log("Error: ", err);
+        // res.send(err);
       });
-       res.status(201).json(req.body);});
+       res.status(201).json(newUser_Model);});
+
+         // var UserSchema = new Schema({
+         //   userName : String,
+         //   profileUrl : String,
+         //   stars: Number,
+         //   items:[ItemsSchema],
+         //   myOrders:[MyOrdersSchema],
+         //   friends_Orders:[Friends_OrdersSchema]
+         // }, { collection: 'User_models' });
 
 
 router.route('/:userid')
@@ -83,17 +94,8 @@ else {
   ;
 
 
+// router.route('/:userid/items')-----router.route('/:userid/items')-----router.route('/:userid/items')----router.route('/:userid/items')router.route('/:userid/items')router.route('/:userid/items') //
 
-
-
-          // var ItemsSchema = new Schema({
-          //   itemName: String,
-          //   category: String,
-          //   description: String,
-          //   itemImageUrl: String,
-          //   isAdded: {type: Boolean, default: false},
-          //   upload_Date: {type: Date, default: Date.now}
-          // });
           router.route('/:userid/items')
               .post(parsedUrlencoded, function(req, res) {
               User_Model.findById(req.params.userid, function(err, user) {
@@ -121,14 +123,6 @@ else {
               };
             });
           })
-              // var ItemsSchema = new Schema({
-              //   itemName: String,
-              //   category: String,
-              //   description: String,
-              //   itemImageUrl: String,
-              //   isAdded: {type: Boolean, default: false},
-              //   upload_Date: {type: Date, default: Date.now}
-              // });
 
               router.route('/:userid/items/:itemid')
                   .put(parsedUrlencoded, function(req, res) {
@@ -144,9 +138,12 @@ else {
                 newItems_Model.description=req.body.description;
                 newItems_Model.itemImageUrl=req.body.itemImageUrl;
 
-                User_Model.findByIdAndUpdate(
-                        req.params.userid,
-                        {$set: {"items": newItems_Model}},
+                User_Model.update(
+                        {
+                        "_id" : req.params.userid,
+                        "items._id" : req.params.itemid
+                        },
+                        {$set: {"items.$": newItems_Model}},
                         {safe: true, upsert: true, new : true},
                         function(err, model) {
                             console.log('error: ',err);
@@ -157,6 +154,37 @@ else {
                   };
                 });
               })
+
+
+                  .delete(parsedUrlencoded, function(req, res) {
+                  User_Model.findById(req.params.userid, function(err, user) {
+                    if (err){
+                      console.log(err);
+                      res.send(err);
+              }
+              else {
+                User_Model.update(
+                        {
+                          "_id" : req.params.userid
+                        },
+                        {
+                          $pull: {"items": {"_id": req.params.itemid}}
+                        },
+                        function(err, status) {
+                          if (err){
+                            console.log(err);
+                            res.send(err);
+                          }
+                          else {
+                            res.send(status);
+                            }
+                        }
+                    );
+                  };
+                });
+              })
+
+// router.route('/:userid/items')-----router.route('/:userid/items')-----router.route('/:userid/items')----router.route('/:userid/items')router.route('/:userid/items')router.route('/:userid/items') //
 
 
 
