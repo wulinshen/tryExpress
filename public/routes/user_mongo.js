@@ -33,18 +33,18 @@ router.route('/')
       //   console.log('error:', err);
       // });
 
-      .get(function(req, res){
+      .get((req, res) => {
        var promise = User_Model.find().exec();
        promise.then(user => {
        // console.log(user);
        res.json(user); // returns a promise
        })
-       .catch(function(err){
+       .catch(err => {
          res.json(err);
        });
       })
 
-     .post(parsedUrlencoded, function(req, res){
+     .post(parsedUrlencoded, (req, res) => {
       var newUser_Model= new User_Model();
       newUser_Model.userName=req.body.userName;
       newUser_Model.profileUrl=req.body.profileUrl;
@@ -63,52 +63,45 @@ router.route('/')
       }
      );
 
-         // var UserSchema = new Schema({
-         //   userName : String,
-         //   profileUrl : String,
-         //   stars: Number,
-         //   items:[ItemsSchema],
-         //   myOrders:[MyOrdersSchema],
-         //   friends_Orders:[Friends_OrdersSchema]
-         // }, { collection: 'User_models' });
+
 
 
 router.route('/:userid')
-    .get(function(req, res) {
+    .get((req, res) => {
     var promise = User_Model.findById(req.params.userid).exec();
     promise.then(user => {
     console.log(user);
     res.json(user);
     })
-    .catch(function(err){
+    .catch(err => {
       res.json(err);
     });
    })
 
 
-    .put(parsedUrlencoded, function(req, res) {
+    .put(parsedUrlencoded, (req, res) => {
     var promise = User_Model.findById(req.params.userid).exec();
     promise.then(user => {
     user.userName = req.body.userName;
     user.profileUrl = req.body.profileUrl;
-    user.starts = req.body.stars;
+    // user.starts = req.body.stars;
     return user.save()})
     .then(user => {
     res.json(user);
     })
-    .catch(function(err){
+    .catch(err => {
       res.json(err);
     });
    })
 
 
-    .delete(function(req, res) {
+    .delete((req, res) => {
     // var promise = User_Model.findById(req.params.userid).exec();
     var promise = User_Model.remove({_id: req.params.userid}).exec();
     promise.then(user => {
       res.json(user);
     })
-    .catch(function(err){
+    .catch(err => {
       res.json(err);
      })
     });
@@ -134,14 +127,14 @@ router.route('/:userid')
               .then(user => {
               res.json(user);
               })
-              .catch(function(err){
+              .catch(err => {
                 res.json(err);
               })
            })
 
 
               router.route('/:userid/items/:itemid')
-                  .put(parsedUrlencoded, function(req, res) {
+                  .put(parsedUrlencoded, (req, res) => {
                     var promise = User_Model.findById(req.params.userid).exec();
                     promise.then(user => {
                       var newItems_Model = new Items_Model();
@@ -165,7 +158,7 @@ router.route('/:userid')
                             .then(user => {
                             res.json(user);
                             })
-                            .catch(function(err){
+                            .catch(err => {
                             res.json(err);
                             })
                        })
@@ -173,7 +166,7 @@ router.route('/:userid')
 
 
 
-                  .delete(parsedUrlencoded, function(req, res) {
+                  .delete(parsedUrlencoded, (req, res) => {
                   var promise = User_Model.findById(req.params.userid).exec();
                   promise.then(user =>{
                   return User_Model.update(
